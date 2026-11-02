@@ -1,0 +1,54 @@
+{
+  "config": {
+    "base_model": "Qwen/Qwen3.5-0.8B",
+    "revision": "2fc06364715b967f1860aea9cf38778875588b17",
+    "seed": 42,
+    "num_train_epochs": 3,
+    "warmup_steps": 6,
+    "lr": 0.0002,
+    "lora_r": 16,
+    "lora_alpha": 32,
+    "max_seq_len": 512,
+    "max_new_tokens": 256,
+    "gen": {
+      "do_sample": false
+    }
+  },
+  "versions": {
+    "transformers": "5.18.0",
+    "peft": "0.21.1",
+    "trl": "1.14.2",
+    "torch": "2.15.0+cu132"
+  },
+  "method": "LoRA（量子化なし）",
+  "train_file": "glossary_sft_unknown.jsonl",
+  "train_file_sha256_12": "784b410c886a",
+  "n_train": 295,
+  "n_valid": 15,
+  "n_test": 17,
+  "train_seconds": 327.4,
+  "before": {
+    "label": "before",
+    "n": 17,
+    "term_variant_correct": "0/3",
+    "paraphrase_correct": "0/6",
+    "unknown_correct": "0/8",
+    "correct_all": "0/17",
+    "asserted_on_unknown": 8,
+    "escaped_on_known": 0,
+    "seconds": 66.3
+  },
+  "after": {
+    "label": "after",
+    "n": 17,
+    "term_variant_correct": "3/3",
+    "paraphrase_correct": "1/6",
+    "unknown_correct": "2/8",
+    "correct_all": "6/17",
+    "asserted_on_unknown": 6,
+    "escaped_on_known": 0,
+    "seconds": 49.3
+  },
+  "regressed": [],
+  "executed_training_myself": true
+}
