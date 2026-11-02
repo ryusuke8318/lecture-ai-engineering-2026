@@ -1,0 +1,25 @@
+{
+  "note": "第2回 宿題（発展）の評価用。学習データ（make_sft_dataset.py）に使う言い回しとは別の質問。must_includeは用語集の定義に実際にある語句です。",
+  "unknown_markers": ["記載がありません", "載っていません", "わかりません", "分かりません", "確認が必要", "ありません"],
+  "items": [
+    {"type": "term_variant", "question": "LoRAって何ですか？", "must_include": ["低ランク"]},
+    {"type": "term_variant", "question": "過学習とはどういう状態ですか？", "must_include": ["学習データ", "未知"]},
+    {"type": "term_variant", "question": "量子化って何ですか？", "must_include": ["ビット", "メモリ"]},
+
+    {"type": "paraphrase", "question": "LoRAで学習するパラメータが少ないのはなぜですか？", "must_include": ["小さな行列"]},
+    {"type": "paraphrase", "question": "QLoRAとLoRAとの違いを教えて", "must_include": ["量子化"]},
+    {"type": "paraphrase", "question": "mainを壊さずに変更を試したいときは何を使いますか？", "must_include": ["ブランチ"]},
+    {"type": "paraphrase", "question": "エポックを増やしすぎるとどうなりますか？", "must_include": ["過学習"]},
+    {"type": "paraphrase", "question": "学習率を大きくしすぎるとどうなりますか？", "must_include": ["不安定"]},
+    {"type": "paraphrase", "question": "モデルの出力をJSONなど決めた型で受け取る仕組みを何と言いますか？", "must_include": ["構造化出力"]},
+
+    {"type": "unknown", "question": "RAGとは何ですか？"},
+    {"type": "unknown", "question": "プロンプトインジェクションについて簡単に説明してください。"},
+    {"type": "unknown", "question": "RLHFの意味を教えてください。"},
+    {"type": "unknown", "question": "埋め込み（Embedding）とは何ですか？"},
+    {"type": "unknown", "question": "Transformerについて簡単に説明してください。"},
+    {"type": "unknown", "question": "ベクトルデータベースの意味を教えてください。"},
+    {"type": "unknown", "question": "蒸留（Distillation）とは何ですか？"},
+    {"type": "unknown", "question": "DPOについて簡単に説明してください。"}
+  ]
+}
