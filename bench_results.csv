@@ -1,0 +1,13 @@
+ts,model,qid,run,status,ttft_s,total_s,tps,input_tokens,output_tokens,thought_tokens,retries
+2026-10-25 18:16:01,gemini-3.5-flash-lite,fact,1,ok,0.613,0.676,300.3,19,19,0,0
+2026-10-25 18:16:01,gemini-2.5-flash-lite,fact,1,error:404,,,,,,,0
+2026-10-25 18:16:04,gemini-3.5-flash-lite,local,1,ok,0.590,2.439,255.3,21,472,0,0
+2026-10-25 18:16:05,gemini-2.5-flash-lite,local,1,error:404,,,,,,,0
+2026-10-25 18:16:11,gemini-3.5-flash-lite,reason,1,ok,3.240,5.817,329.4,66,849,0,0
+2026-10-25 18:16:12,gemini-2.5-flash-lite,reason,1,error:404,,,,,,,0
+2026-10-25 18:17:45,gemini-3.5-flash-lite,fact,1,ok,0.553,0.599,524.1,19,24,0,0
+2026-10-25 18:18:10,gemini-3.1-flash-lite,fact,1,ok,4.642,4.743,404.8,19,41,0,2
+2026-10-25 18:18:14,gemini-3.5-flash-lite,local,1,ok,1.045,3.499,260.7,21,640,0,0
+2026-10-25 18:19:00,gemini-3.1-flash-lite,local,1,ok,43.942,46.095,267.5,21,576,0,0
+2026-10-25 18:19:04,gemini-3.5-flash-lite,reason,1,ok,0.564,4.344,349.1,66,1320,0,0
+2026-10-25 18:19:10,gemini-3.1-flash-lite,reason,1,ok,4.548,5.453,451.0,66,408,0,0
