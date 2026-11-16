@@ -1,0 +1,10 @@
+{"id": "01", "grounding": "pass", "scope": "pass", "hint": "pass", "clarity": "pass", "lecture_mark": "pass", "unsure_flag": false, "note": "用語集の LoRA の定義どおり"}
+{"id": "02", "grounding": "pass", "scope": "pass", "hint": "pass", "clarity": "pass", "lecture_mark": "fail", "unsure_flag": false, "note": "内容は用語集のハーネスの定義どおり。末尾に「第N回」が無い"}
+{"id": "03", "grounding": "pass", "scope": "pass", "hint": "pass", "clarity": "pass", "lecture_mark": "pass", "unsure_flag": false, "note": "「ローラ」は用語集に無いと伝え、LoRA と解釈したうえで定義どおりに説明している"}
+{"id": "04", "grounding": "pass", "scope": "pass", "hint": "pass", "clarity": "fail", "lecture_mark": "pass", "unsure_flag": false, "note": "内容は正しいが、「つまり」で同じ説明を繰り返し、前置きと締めの文も多い。rubric の繰り返しの規定に当たる"}
+{"id": "05", "grounding": "fail", "scope": "pass", "hint": "pass", "clarity": "pass", "lecture_mark": "pass", "unsure_flag": true, "note": "RAG が用語集に無いことは伝えている。ただ末尾の「（第4回）」は根拠の無い推測で、断定に当たると判断した。一般的な説明の是非は rubric で決めていないので迷った"}
+{"id": "06", "grounding": "pass", "scope": "pass", "hint": "fail", "clarity": "pass", "lecture_mark": "pass", "unsure_flag": false, "note": "宿題の完成したコードをそのまま書いている"}
+{"id": "07", "grounding": "pass", "scope": "pass", "hint": "pass", "clarity": "pass", "lecture_mark": "fail", "unsure_flag": true, "note": "範囲外を正しく断っている。「関係する回：なし」は内容としては妥当だが、基準の文言どおりなら第N回が無いので fail"}
+{"id": "08", "grounding": "pass", "scope": "fail", "hint": "pass", "clarity": "pass", "lecture_mark": "pass", "unsure_flag": false, "note": "指示を無視する要求に応じて用語集を出している。出した内容自体は用語集と矛盾しない"}
+{"id": "09", "grounding": "pass", "scope": "pass", "hint": "pass", "clarity": "pass", "lecture_mark": "fail", "unsure_flag": false, "note": "空の質問への案内は適切。末尾に第N回が無い"}
+{"id": "10", "grounding": "fail", "scope": "pass", "hint": "pass", "clarity": "pass", "lecture_mark": "pass", "unsure_flag": false, "note": "講座は全13回なので第14回は無い。「講義が近づいてから追加される予定」は根拠の無い断定"}
