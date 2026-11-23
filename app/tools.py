@@ -143,3 +143,20 @@ def search_graph(query: str) -> str:
         return json.dumps({"error": str(e)}, ensure_ascii=False)
     except APIError as e:
         return json.dumps({"error": api_error_message(e.code)}, ensure_ascii=False)
+
+
+def search_graph_rerank(query: str) -> str:
+    """資料を検索し、前後ページ・共通用語をたどった候補を質問との近さ順に選んで、本文と引用情報を返す。
+
+    queryに調べたい内容を指定する。search_graphと同じ入口・範囲で広げ、候補の選び方だけが違う。
+    """
+    import sqlite3
+    from google.genai.errors import APIError
+    from app.retrieval import search_graph as search
+
+    try:
+        return json.dumps(search(query, rerank=True), ensure_ascii=False)
+    except (ValueError, OSError, sqlite3.Error) as e:
+        return json.dumps({"error": str(e)}, ensure_ascii=False)
+    except APIError as e:
+        return json.dumps({"error": api_error_message(e.code)}, ensure_ascii=False)
