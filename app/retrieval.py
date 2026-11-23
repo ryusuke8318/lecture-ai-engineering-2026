@@ -124,8 +124,8 @@ def open_index(path: Path):
         db.close()
 
 
-def search(query: str) -> list[dict]:
-    """質問を埋め込み、近いページを最大RAG_TOP_K件返す。"""
+def _search_with_vector(query: str) -> tuple[list[dict], list[float]]:
+    """search()の本体。Graphの並べ替えで同じ質問ベクトルを使い回すため、ベクトルも返す。"""
     if not isinstance(query, str) or not query.strip():
         raise ValueError("検索語が空です。")
     with open_index(RAG_DB) as db:
@@ -135,11 +135,33 @@ def search(query: str) -> list[dict]:
                    vec_distance_cosine(embedding, ?) AS distance
             FROM chunks ORDER BY distance, page_id LIMIT ?
         """, (sqlite_vec.serialize_float32(vector), RAG_TOP_K))
-        return [dict(row) for row in rows]
+        return [dict(row) for row in rows], vector
 
 
-def search_graph(query: str) -> dict:
-    """ベクトル検索を入口に、前後ページと共通用語で候補を広げる。"""
+def search(query: str) -> list[dict]:
+    """質問を埋め込み、近いページを最大RAG_TOP_K件返す。"""
+    return _search_with_vector(query)[0]
+
+
+def page_distances(vector: list[float], page_ids: list[str]) -> dict[str, float]:
+    """質問ベクトルと、指定したページの埋め込みとのコサイン距離を返す。"""
+    if not page_ids:
+        return {}
+    with open_index(RAG_DB) as db:
+        marks = ",".join("?" * len(page_ids))
+        rows = db.execute(
+            f"SELECT page_id, vec_distance_cosine(embedding, ?) AS distance FROM chunks WHERE page_id IN ({marks})",
+            (sqlite_vec.serialize_float32(vector), *page_ids),
+        )
+        return {row["page_id"]: row["distance"] for row in rows}
+
+
+def search_graph(query: str, rerank: bool = False) -> dict:
+    """ベクトル検索を入口に、前後ページと共通用語で候補を広げる。
+
+    rerank=Trueのときは、広げた候補を質問との距離が近い順に並べ替えて採用する（第5回 発展）。
+    既定（False）は、ホップ数・用語の接続数・入口の順位で採用する元の動作。
+    """
     pages = {page["page_id"]: page for page in load_pages(RAG_SOURCE)}
     graph = json.loads(RAG_GRAPH.read_text(encoding="utf-8"))
     nodes = {node["id"]: node for node in graph["nodes"]
@@ -151,7 +173,8 @@ def search_graph(query: str) -> dict:
             adjacent[a].add(b)
             adjacent[b].add(a)
 
-    seeds = [hit for hit in search(query) if hit["page_id"] in pages][:min(GRAPH_START_K, GRAPH_MAX_RESULTS)]
+    hits, query_vector = _search_with_vector(query)
+    seeds = [hit for hit in hits if hit["page_id"] in pages][:min(GRAPH_START_K, GRAPH_MAX_RESULTS)]
     seed_ids = {seed["page_id"] for seed in seeds}
     results, candidates = [], {}
     for rank, seed in enumerate(seeds):
@@ -181,6 +204,12 @@ def search_graph(query: str) -> dict:
                 if neighbor not in candidates or priority < candidates[neighbor][0]:
                     candidates[neighbor] = (priority, candidate)
     expanded = [candidate for _, candidate in sorted(candidates.values())]
+    if rerank:
+        # 用語の接続数やIDの順ではなく、質問との距離で選ぶ。第1回・第2回の「メモリ」を含むページが、
+        # 同じ第3回のページより先に枠を埋めてしまうのを防ぐ。
+        distances = page_distances(query_vector, [c["page_id"] for c in expanded])
+        expanded = [{**c, "distance": distances[c["page_id"]]} for c in expanded if c["page_id"] in distances]
+        expanded.sort(key=lambda c: (c["distance"], c["page_id"]))
     return {"seeds": results, "expanded": expanded[:max(0, GRAPH_MAX_RESULTS - len(results))],
             "max_hops": GRAPH_HOPS}
 
